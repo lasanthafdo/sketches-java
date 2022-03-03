@@ -100,8 +100,7 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
     bucketIndexes.addAll(positiveValueStore.keySet());
     bucketIndexes.addAll(other.positiveValueStore.keySet());
     for (Integer bucketIndex : bucketIndexes) {
-      Bucket bucket =
-          positiveValueStore.computeIfAbsent(bucketIndex, bIdx -> new Bucket(bIdx, 0));
+      Bucket bucket = positiveValueStore.computeIfAbsent(bucketIndex, bIdx -> new Bucket(bIdx, 0));
       Bucket otherBucket =
           other.positiveValueStore.getOrDefault(bucketIndex, new Bucket(bucketIndex, 0));
       bucket.add(otherBucket.getCount());
