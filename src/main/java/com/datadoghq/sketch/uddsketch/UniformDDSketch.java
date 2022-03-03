@@ -97,20 +97,31 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
     return Sm
      */
     if (other.gamma != gamma) {
-      throw new IllegalArgumentException(
-          "These sketches are not mergeable because the gamma value differs");
-    }
-    Set<Integer> bucketIndexes = new HashSet<>();
-    bucketIndexes.addAll(positiveValueStore.keySet());
-    bucketIndexes.addAll(other.positiveValueStore.keySet());
-    for (Integer bucketIndex : bucketIndexes) {
-      Bucket bucket = positiveValueStore.computeIfAbsent(bucketIndex, bIdx -> new Bucket(bIdx, 0));
-      Bucket otherBucket =
-          other.positiveValueStore.getOrDefault(bucketIndex, new Bucket(bucketIndex, 0));
-      bucket.add(otherBucket.getCount());
-    }
-    while (positiveValueStore.size() > maxNumBuckets) {
-      uniformCollapse();
+      double otherLogGamma = other.logGamma;
+      double otherRelativeAccuracy = other.relativeAccuracy;
+      other
+          .positiveValueStore
+          .values()
+          .forEach(
+              bucket -> {
+                double value =
+                    Math.exp(bucket.getIndex() * otherLogGamma) * (1 - otherRelativeAccuracy);
+                accept(value, bucket.getCount());
+              });
+    } else {
+      Set<Integer> bucketIndexes = new HashSet<>();
+      bucketIndexes.addAll(positiveValueStore.keySet());
+      bucketIndexes.addAll(other.positiveValueStore.keySet());
+      for (Integer bucketIndex : bucketIndexes) {
+        Bucket bucket =
+            positiveValueStore.computeIfAbsent(bucketIndex, bIdx -> new Bucket(bIdx, 0));
+        Bucket otherBucket =
+            other.positiveValueStore.getOrDefault(bucketIndex, new Bucket(bucketIndex, 0));
+        bucket.add(otherBucket.getCount());
+      }
+      while (positiveValueStore.size() > maxNumBuckets) {
+        uniformCollapse();
+      }
     }
   }
 
