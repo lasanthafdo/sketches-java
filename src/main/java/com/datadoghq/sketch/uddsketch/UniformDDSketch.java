@@ -60,7 +60,7 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
 
   private void updateParamsOnCollapse(double newGamma) {
     numCollapses++;
-    gamma = newGamma * newGamma;
+    gamma = newGamma;
     relativeAccuracy = (newGamma - 1) / (newGamma + 1);
     logGamma = Math.log1p(newGamma - 1);
     multiplier = 1 / logGamma;
@@ -170,21 +170,21 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
   @Override
   public String toString() {
     return "UniformDDSketch{"
-        + "multiplier="
+        + "\nmultiplier="
         + multiplier
-        + ", relativeAccuracy="
+        + ", \nrelativeAccuracy="
         + relativeAccuracy
-        + ", gamma="
+        + ", \ngamma="
         + gamma
-        + ", maxNumBuckets="
+        + ", \nmaxNumBuckets="
         + maxNumBuckets
-        + ", numCollapses="
+        + ", \nnumCollapses="
         + numCollapses
         + ",\n positiveValueStore="
         + positiveValueStore
-        + ", zeroCount="
+        + ", \nzeroCount="
         + zeroCount
-        + ", minAddressableValue="
+        + ", \nminAddressableValue="
         + minAddressableValue
         + '}';
   }
