@@ -170,21 +170,27 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
   @Override
   public String toString() {
     return "UniformDDSketch{"
-        + "\nmultiplier="
+        + "\n\tmultiplier="
         + multiplier
-        + ", \nrelativeAccuracy="
+        + ",\n\trelativeAccuracy="
         + relativeAccuracy
-        + ", \ngamma="
+        + ",\n\tgamma="
         + gamma
-        + ", \nmaxNumBuckets="
+        + ",\n\tmaxNumBuckets="
         + maxNumBuckets
-        + ", \nnumCollapses="
+        + ",\n\tnumCollapses="
         + numCollapses
-        + ",\n positiveValueStore="
-        + positiveValueStore
-        + ", \nzeroCount="
+        + ",\n\tpositiveValueStore.size="
+        + positiveValueStore.size()
+        + ",\n\tpositiveValueStore.firstKey="
+        + positiveValueStore.firstKey()
+        + ",\n\tpositiveValueStore.lastKey="
+        + positiveValueStore.lastKey()
+        + ",\n\tzeroCount="
         + zeroCount
-        + ", \nminAddressableValue="
+        + ",\n\tcount="
+        + getCount()
+        + ",\n\tminAddressableValue="
         + minAddressableValue
         + '}';
   }
