@@ -167,6 +167,10 @@ public class UniformDDSketch implements QuantileSketch<UniformDDSketch> {
     return numCollapses;
   }
 
+  public long getSerializedStoreSize() {
+    return (2 * Integer.BYTES + Long.BYTES + 12) * positiveValueStore.size();
+  }
+
   @Override
   public String toString() {
     return "UniformDDSketch{"
